@@ -1,0 +1,36 @@
+<idea-plugin version="2">
+  <id>org.diql.iconimporter</id>
+  <name>IconImporter</name>
+  <version>1.0</version>
+  <vendor email="diql@hotmail.com" url="http://diql.org/"></vendor>
+
+  <description><![CDATA[
+    帮助快速导入?x类型的icon到Android项目中.
+    ]]></description>
+
+  <change-notes><![CDATA[
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="145.0"/>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+    <action id="org.diql.iconimporter.IconImporter" class="org.diql.iconimporter.IconImporter" text="IconImporter" description="导入Android图片资源">
+      <add-to-group group-id="MainMenu" anchor="first"/>
+      <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt C"/>
+    </action>
+
+  </actions>
+
+</idea-plugin>

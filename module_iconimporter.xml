@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_iconimporter" default="compile.module.iconimporter">
+  <dirname property="module.iconimporter.basedir" file="${ant.file.module_iconimporter}"/>
+  
+  <property name="module.jdk.home.iconimporter" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.iconimporter" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.iconimporter" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.iconimporter" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="iconimporter.output.dir" value="${module.iconimporter.basedir}/out/production/IconImporter"/>
+  <property name="iconimporter.testoutput.dir" value="${module.iconimporter.basedir}/out/test/IconImporter"/>
+  
+  <path id="iconimporter.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="iconimporter.module.production.classpath">
+    <path refid="${module.jdk.classpath.iconimporter}"/>
+  </path>
+  
+  <path id="iconimporter.runtime.production.module.classpath">
+    <pathelement location="${iconimporter.output.dir}"/>
+  </path>
+  
+  <path id="iconimporter.module.classpath">
+    <path refid="${module.jdk.classpath.iconimporter}"/>
+    <pathelement location="${iconimporter.output.dir}"/>
+  </path>
+  
+  <path id="iconimporter.runtime.module.classpath">
+    <pathelement location="${iconimporter.testoutput.dir}"/>
+    <pathelement location="${iconimporter.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.iconimporter">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.iconimporter">
+    <patternset refid="excluded.from.module.iconimporter"/>
+  </patternset>
+  
+  <path id="iconimporter.module.sourcepath">
+    <dirset dir="${module.iconimporter.basedir}">
+      <include name="src"/>
+      <include name="resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.iconimporter" depends="compile.module.iconimporter.production,compile.module.iconimporter.tests" description="Compile module org.diql.iconimporter.IconImporter"/>
+  
+  <target name="compile.module.iconimporter.production" depends="register.custom.compilers" description="Compile module org.diql.iconimporter.IconImporter; production classes">
+    <mkdir dir="${iconimporter.output.dir}"/>
+    <javac2 destdir="${iconimporter.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.iconimporter}/javac">
+      <compilerarg line="${compiler.args.iconimporter}"/>
+      <bootclasspath refid="iconimporter.module.bootclasspath"/>
+      <classpath refid="iconimporter.module.production.classpath"/>
+      <src refid="iconimporter.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.iconimporter"/>
+    </javac2>
+    
+    <copy todir="${iconimporter.output.dir}">
+      <fileset dir="${module.iconimporter.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.iconimporter.basedir}/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.iconimporter.tests" depends="register.custom.compilers,compile.module.iconimporter.production" description="compile module org.diql.iconimporter.IconImporter; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.iconimporter" description="cleanup module">
+    <delete dir="${iconimporter.output.dir}"/>
+    <delete dir="${iconimporter.testoutput.dir}"/>
+  </target>
+  
+  <property name="iconimporter.plugin.path.jar" value="${module.iconimporter.basedir}/IconImporter.jar"/>
+  
+  <!-- Build archive for plugin 'org.diql.iconimporter.IconImporter' -->
+  <target name="plugin.build.jar.iconimporter" depends="compile.module.iconimporter" description="Build plugin archive for module &#39;org.diql.iconimporter.IconImporter&#39;">
+    <jar destfile="${iconimporter.plugin.path.jar}" duplicate="preserve">
+      <zipfileset dir="${module.iconimporter.basedir}/out/production/IconImporter"/>
+      <zipfileset file="${module.iconimporter.basedir}/resources/META-INF/plugin.xml" prefix="META-INF"/>
+      <manifest>
+        <attribute name="Created-By" value="IntelliJ IDEA"/>
+        <attribute name="Manifest-Version" value="1.0"/>
+      </manifest>
+    </jar>
+  </target>
+</project>
