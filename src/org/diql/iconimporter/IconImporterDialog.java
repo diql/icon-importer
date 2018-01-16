@@ -228,6 +228,7 @@ public class IconImporterDialog extends JDialog {
             if (!StringUtils.isEmpty(mPrefix)) {
                 targetName = mPrefix + targetName;
             }
+            targetName = StringUtils.reginToResourceName(targetName);
             String target = targetDirctory + mLink + targetName;
             FileUtils.nioTransferCopy(source, target);
         }
